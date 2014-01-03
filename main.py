@@ -13,6 +13,7 @@ def leftMousePressed(event):
     canvas = event.widget.canvas  
     eventInfo("leftMousePressed", time.time() - canvas.base)
     canvas.data["lefttime"] = time.time() - canvas.base
+    #push each click onto the stack
     canvas.clicks.append(canvas.data["lefttime"])
     redrawAll(canvas)
 
@@ -26,6 +27,7 @@ def redrawAll(canvas):
 def init(canvas):
     canvas.data["lefttime"] = 0
     canvas.base = time.time()
+    #initialize the stack, empty.
     canvas.clicks = []
     redrawAll(canvas)
 
