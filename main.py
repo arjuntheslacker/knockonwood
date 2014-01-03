@@ -32,7 +32,7 @@ def init(canvas):
 def run():
     # create the root and the canvas
     root = Tk()
-    canvas = Canvas(root, width=600, height=300)
+    canvas = Canvas(root, width=600, height=600)
     canvas.pack()
     # Store canvas in root and in canvas itself for callbacks
     root.canvas = canvas.canvas = canvas
