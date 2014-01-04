@@ -1,3 +1,5 @@
+# knock patterns are of datatype knock pattern, to be defined in the future
+
 # invariant: 0 <= self.index < length(knockPats)
 class User(object):
 	def __init__(self, knockPats):
@@ -10,13 +12,13 @@ class User(object):
 	def incIndex(self):
 		self.index = (self.index + 1) % len(self.knockPats)
 
+# test cases
 Andy = User([1, 2, 3])
 print Andy.getPat()
 
 User.incIndex(Andy)
 print Andy.getPat()
-
-
+ 
 # knock1 and knock2 are knock patterns
 # returns true if the knocks are equal, false otherwise
 def compKnock(knock1, knock2):
@@ -25,6 +27,7 @@ def compKnock(knock1, knock2):
 # knockPat: knock pattern
 # users: list of users
 # returns true if the knock pattern is recognized, false otherwise
+# if a knock pattern is recognized, then the cycle index is incremented
 def checkKnock(knockPat, userList):
 	for i in xrange(len(userList)):
 		user = userList[i]
@@ -32,3 +35,19 @@ def checkKnock(knockPat, userList):
 			User.incIndex(user)
 			return true
 	return false
+
+def signalToKnockPat():
+	raise Exception("Unimplemented")
+
+def newKnock():
+	raise Exception("Unimplemented")
+
+def newUser():
+	raise Exception("Unimplemented")
+
+def removeKnock():
+	raise Exception("Unimplemented")
+
+def removeUser():
+	raise Exception("Unimplemented")
+
