@@ -1,11 +1,12 @@
 
 # global variables
-knockSens = 0.1
-	# knock sensitivity is the tolerance of inaccuracy within a knock pattern
+rhythmSens = 0.1
+	# rhythm sensitivity is the tolerance of inaccuracy within a knock pattern
 
 # Knock patterns are of datatype KNOCKPAT, to be defined in the future
 # For now, respect the interface whenever possible.
 # 2014-1-4: KNOCKPATs are of type REAL LIST
+# knock pattern invariant: at least 2 knocks long
 
 # invariant: 0 <= self.index < length(knockPats)
 class User(object):
@@ -20,7 +21,7 @@ class User(object):
 		self.index = (self.index + 1) % len(self.knockPats)
 
 # test cases
-Andy = User([1, 2, 3])
+Andy = User([0.0, 1.0, 3.0])
 print Andy.getPat()
 
 User.incIndex(Andy)
@@ -29,11 +30,12 @@ print Andy.getPat()
 # knock1 and knock2 are KNOCKPATs
 # returns true if the knocks are equal, false otherwise
 def compKnock(knock1, knock2):
-	if (len(knock1) != len(knock2)): return false
+	if (len(knock1) != len(knock2)): return False
 	for i in xrange(len(knock1)):
-		if (knock2[i] > knock1[i] + knockSens) or (knock2[i] < knock1[i] - knockSens):
-			return false
-	return true
+		if (knock2[i] > knock1[i] + knockSens) or \
+		   (knock2[i] < knock1[i] - knockSens):
+			return False
+	return True
 
 # knockPat: KNOCKPAT
 # users: list of users
@@ -44,8 +46,8 @@ def checkKnock(knockPat, userList):
 		user = userList[i]
 		if compKnock(knockPat, User.getPat(user)):
 			User.incIndex(user)
-			return true
-	return false
+			return True
+	return False
 
 def signalToKnockPat():
 	raise Exception("Unimplemented")
