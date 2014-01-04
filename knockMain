@@ -1,0 +1,59 @@
+
+import RPi.GPIO as GPIO
+import time
+
+GPIO.setmode(GPIO.BOARD)
+
+# 2014-1-4 NOTE: ALL GLOBAL VARIABLES ARE DUMMY VALUES
+
+# global variables
+knockThres = 128
+	# knock threshold filters out weak vibrations
+timeOut = 2.5
+	# maximimum amount of time allowed between knocks
+piezo1 = 18
+	# the gpio channel for the first piezo element
+motor = 20
+	# the gpio channel for the motor
+motorTime = 3
+	# the amount of time for which the motor engages to open the door
+openTime = 5
+	# the amount of time for which the door remains unlocked
+
+# channel set-up
+GPIO.setup(piezo1, GPIO.IN)
+GPIO.setup(motor, GPIO.OUT)
+
+def recordKnockPat(knockPattern, piezo):
+	start = time.time()
+	while True:
+		now = time.time()
+		if ((now - start) > timeOut):
+			if (len(knockPattern) < 2):
+				raise Exception("Pattern too short")
+			return knockPattern
+		if GPIO.input(piezo):
+			return knockPattern + [now]
+		time.sleep(0.01)
+
+def normalize(knockPattern):
+	first = knockPattern[1]
+	for i in xrange(len(knockPattern)):
+		knockPattern[i] = knockPattern[i] / first
+
+def openDoor():
+	GPIO.output(motor, True)
+	time.sleep(motorTime)
+	GPIO.output(motor, False)
+	time.sleep(openTime)
+
+def main():
+	if GPIO.input(piezo1):
+		knockPattern = normalize(recordKnockPat([0.0], piezo1))
+		if checkKnock(knockPattern):
+			openDoor()
+	else:
+		time.sleep(0.01)
+
+while True:
+	main()
