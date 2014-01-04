@@ -1,0 +1,17 @@
+# invariant: 0 <= self.index < length(knockPats)
+class User(object):
+	def __init__(self, knockPats):
+		self.knockPats = knockPats
+		self.index = 0
+	
+	def getPat(self):
+		return self.knockPats[self.index]
+
+	def incIndex(self):
+		self.index = (self.index + 1) % len(self.knockPats)
+
+Andy = User([1, 2, 3])
+print Andy.getPat()
+
+User.incIndex(Andy)
+print Andy.getPat()
