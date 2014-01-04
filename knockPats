@@ -15,3 +15,20 @@ print Andy.getPat()
 
 User.incIndex(Andy)
 print Andy.getPat()
+
+
+# knock1 and knock2 are knock patterns
+# returns true if the knocks are equal, false otherwise
+def compKnock(knock1, knock2):
+	return true
+
+# knockPat: knock pattern
+# users: list of users
+# returns true if the knock pattern is recognized, false otherwise
+def checkKnock(knockPat, userList):
+	for i in xrange(len(userList)):
+		user = userList[i]
+		if compKnock(knockPat, User.getPat(user)):
+			User.incIndex(user)
+			return true
+	return false
