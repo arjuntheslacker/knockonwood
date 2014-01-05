@@ -33,7 +33,7 @@ def recordKnockPat(knockPattern, piezo):
 				raise Exception("Pattern too short")
 			return knockPattern
 		if GPIO.input(piezo):
-			return knockPattern + [now]
+			return recordKnockPat(knockPattern + [now])
 		time.sleep(0.01)
 
 def normalize(knockPattern):
