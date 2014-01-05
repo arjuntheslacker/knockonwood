@@ -24,6 +24,7 @@ openTime = 5
 GPIO.setup(piezo1, GPIO.IN)
 GPIO.setup(motor, GPIO.OUT)
 
+# ENSURES: returns a knock pattern of at least length 2
 def recordKnockPat(knockPattern, piezo):
 	start = time.time()
 	while True:
