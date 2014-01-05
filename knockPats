@@ -20,6 +20,9 @@ class User(object):
 	def incIndex(self):
 		self.index = (self.index + 1) % len(self.knockPats)
 
+	def newPat(self, knockPat):
+		self.knockPat = self.knockPat + knockPat
+
 # test cases
 Andy = User([0.0, 1.0, 3.0])
 print Andy.getPat()
@@ -49,10 +52,7 @@ def checkKnock(knockPat, userList):
 			return True
 	return False
 
-def signalToKnockPat():
-	raise Exception("Unimplemented")
-
-def newKnock():
+def newKnock(user):
 	raise Exception("Unimplemented")
 
 def newUser():
