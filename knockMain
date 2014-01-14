@@ -7,7 +7,7 @@ GPIO.setmode(GPIO.BOARD)
 # 2014-1-4 NOTE: ALL GLOBAL VARIABLES ARE DUMMY VALUES
 
 # global variables
-knockThres = 128
+# knockThres = 128
 	# knock threshold filters out weak vibrations
 timeOut = 2.5
 	# maximimum amount of time allowed between knocks
@@ -24,21 +24,26 @@ openTime = 5
 GPIO.setup(piezo1, GPIO.IN)
 GPIO.setup(motor, GPIO.OUT)
 
-# ENSURES: returns a knock pattern of at least length 2
+# isKnockPat: real array -> bool
+# returns true if the given array is a knock pattern. false otherwise
+def isKnockPat(knockPattern)
+	if (len(knockPattern) < 1): return False
+	if (knockPattern[0] == 0.0): return False
+	return True
+
+# ENSURES: returns a knock pattern of at least length 1
 def recordKnockPat(knockPattern, piezo):
 	start = time.time()
 	while True:
 		now = time.time()
 		if ((now - start) > timeOut):
-			if (len(knockPattern) < 2):
-				raise Exception("Pattern too short")
 			return knockPattern
 		if GPIO.input(piezo):
 			return recordKnockPat(knockPattern + [now])
 		time.sleep(0.01)
 
 def normalize(knockPattern):
-	first = knockPattern[1]
+	first = knockPattern[0]
 	for i in xrange(len(knockPattern)):
 		knockPattern[i] = knockPattern[i] / first
 
@@ -50,9 +55,13 @@ def openDoor():
 
 def main():
 	if GPIO.input(piezo1):
-		knockPattern = normalize(recordKnockPat([0.0], piezo1))
-		if checkKnock(knockPattern):
-			openDoor()
+		knockPattern = recordKnockPat([], piezo1)
+		if !(isKnockPat(knockPattern)): time.sleep(0.01) 
+			# start listening again
+		else: 
+			knockPattern = normalize(knockPattern)
+			if checkKnock(knockPattern):
+				openDoor()
 	else:
 		time.sleep(0.01)
 
