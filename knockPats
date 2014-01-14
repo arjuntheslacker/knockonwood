@@ -6,7 +6,8 @@ rhythmSens = 0.1
 # Knock patterns are of datatype KNOCKPAT, to be defined in the future
 # For now, respect the interface whenever possible.
 # 2014-1-4: KNOCKPATs are of type REAL LIST
-# knock pattern invariant: at least 2 knocks long
+# knock pattern invariant: at least 1 element long
+# number of elements in a knock pattern is equal to the number of knocks - 1
 
 # invariant: 0 <= self.index < length(knockPats)
 class User(object):
@@ -24,7 +25,7 @@ class User(object):
 		self.knockPat = self.knockPat + knockPat
 
 # test cases
-Andy = User([0.0, 1.0, 3.0])
+Andy = User([1.0, 2.0, 3.0])
 print Andy.getPat()
 
 User.incIndex(Andy)
