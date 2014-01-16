@@ -1,4 +1,3 @@
-
 import RPi.GPIO as GPIO
 import time
 
@@ -20,7 +19,7 @@ piezo5 = 23
 	# the gpio channels for the piezo elements
 piezos = [piezo0, piezo1, piezo2, piezo3, piezo4, piezo5]
 	# an array containing the channels of the piezo elements
-motor = 24
+motor = 16
 	# the gpio channel for the motor
 motorTime = 3
 	# the amount of time for which the motor engages to open the door
@@ -119,10 +118,13 @@ def normalize(knockPattern):
 		knockPattern[i].time = (knockPattern[i].time - first) / second
 
 def openDoor():
-	GPIO.output(motor, True)
-	time.sleep(motorTime)
-	GPIO.output(motor, False)
-	time.sleep(openTime)
+	now = time.time()
+	while (time.time() < now + motorTime:
+		GPIO.output(motor, GPIO.HIGH)
+		time.sleep(0.0015)
+		GPIO.output(motor, GPIO.LOW)
+		time.sleep(0.0185)
+
 
 def main():
 	while True:
